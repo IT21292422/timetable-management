@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CourseRepository extends MongoRepository<Course, ObjectId> {
+public interface CourseRepository extends MongoRepository<Course, String> {
     Optional<Course> findCourseByCode(String courseCode);
 }

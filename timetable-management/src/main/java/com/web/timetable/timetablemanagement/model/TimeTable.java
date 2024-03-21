@@ -9,17 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection="courses")
+@Document(collection = "timetables")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+public class TimeTable {
     @Id
-    private String id;
-    private String code;
-    private String name;
-    private String description;
-    private int credits;
-    private List<Session> sessions;
+    private String timetableId;
+    private String timetableName;
+    private List<Course> courses;
 
 }

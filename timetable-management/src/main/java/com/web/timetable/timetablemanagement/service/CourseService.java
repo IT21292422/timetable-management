@@ -27,7 +27,7 @@ public class CourseService {
         return courseRepo.findCourseByCode(id);
     }
 
-    public Course updateCourse(ObjectId id, Course updatedCourse){
+    public Course updateCourse(String id, Course updatedCourse){
         Optional<Course> optionalCourse = courseRepo.findById(id);
         if(optionalCourse.isPresent()){
             Course existingCourse = optionalCourse.get();
@@ -41,7 +41,7 @@ public class CourseService {
         }
     }
 
-    public void deleteCourse(ObjectId id) {
+    public void deleteCourse(String id) {
         courseRepo.deleteById(id);
         System.out.println("Item with id " + id + " deleted...");
     }

@@ -3,23 +3,19 @@ package com.web.timetable.timetablemanagement.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
-@Document(collection="courses")
+@Document(collection = "Sessions")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+public class Session {
     @Id
-    private String id;
-    private String code;
-    private String name;
-    private String description;
-    private int credits;
-    private List<Session> sessions;
-
+    private String sessionId;
+    private String day;
+    private String startTime;
+    private String endTime;
+    private String faculty;
+    private String location;
 }
