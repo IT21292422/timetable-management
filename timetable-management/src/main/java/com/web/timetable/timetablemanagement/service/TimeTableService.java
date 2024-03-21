@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -51,10 +52,22 @@ public class TimeTableService {
 
     public TimeTable assignCourseToTimetable(String timetableId, String courseCode){
         Optional<TimeTable> optionalTimetable = timetableRepo.findById(timetableId);
-        TimeTable timetable = optionalTimetable.get();
+        TimeTable timetable;
+        Course course;
+        if(optionalTimetable.isPresent()){
+            timetable = optionalTimetable.get();
+        }else {
+            // Handle the case where the course is not found
+            throw new NoSuchElementException("No Timetable found with id: " + timetableId);
+        }
+        Optional<Course> optionalCourse = courseRepo.findCourseByCode(courseCode);
+        if(optionalCourse.isPresent()){
+            course = optionalCourse.get();
+        }else {
+            // Handle the case where the course is not found
+            throw new NoSuchElementException("No Course found with id: " + courseCode);
+        }
 
-        Optional<Course> optionalCourse = courseRepo.findById(courseCode);
-        Course course = optionalCourse.get();
 
         timetable.getCourses().add(course);
         return timetableRepo.save(timetable);

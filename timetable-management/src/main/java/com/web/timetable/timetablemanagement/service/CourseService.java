@@ -9,6 +9,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -49,10 +50,15 @@ public class CourseService {
     }
 
     public Course assignSessionToCourse(String courseCode, Session session){
-        Optional<Course> optionalCourse = courseRepo.findCourseByCode(courseCode);
-        Course course = optionalCourse.get();
-        course.getSessions().add(session);
-        return courseRepo.save(course);
+        Optional<Course> optionalCourse = getCourseById(courseCode);
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            course.getSessions().add(session);
+            return courseRepo.save(course);
+        } else {
+            // Handle the case where the course is not found
+            throw new NoSuchElementException("No course found with code: " + courseCode);
+        }
     }
 
 }

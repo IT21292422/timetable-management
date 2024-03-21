@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection="courses")
@@ -20,6 +21,6 @@ public class Course {
     private String name;
     private String description;
     private int credits;
-    private List<Session> sessions;
+    private List<Session> sessions = new ArrayList<>();
 
 }
