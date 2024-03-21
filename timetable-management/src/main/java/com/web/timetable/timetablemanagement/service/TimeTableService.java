@@ -1,8 +1,6 @@
 package com.web.timetable.timetablemanagement.service;
 
-import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.model.TimeTable;
-import com.web.timetable.timetablemanagement.repository.CourseRepository;
 import com.web.timetable.timetablemanagement.repository.TimeTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +41,6 @@ public class TimeTableService {
 
     public void deleteTimetable(String id) {
         timetableRepo.deleteById(id);
-        System.out.println("Item with id " + id + " deleted...");
+        System.out.println("Timetable with id " + id + " deleted...");
     }
 }

@@ -43,7 +43,7 @@ public class CourseService {
 
     public void deleteCourse(String id) {
         courseRepo.deleteById(id);
-        System.out.println("Item with id " + id + " deleted...");
+        System.out.println("Course with id " + id + " deleted...");
     }
 
 }
