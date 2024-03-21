@@ -1,6 +1,8 @@
 package com.web.timetable.timetablemanagement.service;
 
+import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.model.TimeTable;
+import com.web.timetable.timetablemanagement.repository.CourseRepository;
 import com.web.timetable.timetablemanagement.repository.TimeTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,9 @@ import java.util.Optional;
 public class TimeTableService {
     @Autowired
     private TimeTableRepository timetableRepo;
+
+    @Autowired
+    private CourseRepository courseRepo;
 
     public TimeTable createTimetable(TimeTable timetable){
 
@@ -42,5 +47,16 @@ public class TimeTableService {
     public void deleteTimetable(String id) {
         timetableRepo.deleteById(id);
         System.out.println("Timetable with id " + id + " deleted...");
+    }
+
+    public TimeTable assignCourseToTimetable(String timetableId, String courseCode){
+        Optional<TimeTable> optionalTimetable = timetableRepo.findById(timetableId);
+        TimeTable timetable = optionalTimetable.get();
+
+        Optional<Course> optionalCourse = courseRepo.findById(courseCode);
+        Course course = optionalCourse.get();
+
+        timetable.getCourses().add(course);
+        return timetableRepo.save(timetable);
     }
 }
