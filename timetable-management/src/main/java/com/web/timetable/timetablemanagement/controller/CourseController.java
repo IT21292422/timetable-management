@@ -1,6 +1,7 @@
 package com.web.timetable.timetablemanagement.controller;
 
 import com.web.timetable.timetablemanagement.model.Course;
+import com.web.timetable.timetablemanagement.model.Session;
 import com.web.timetable.timetablemanagement.service.CourseService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,11 @@ public class CourseController {
     @DeleteMapping("/deleteCourse/{id}")
     public void deleteCourse(@PathVariable String id){
         service.deleteCourse(id);
+    }
+
+    @PutMapping("/{courseId}/sessions")
+    public ResponseEntity<Course> assignSessionToCourse(@PathVariable String courseId, @RequestBody Session session){
+        Course updatedCourse = service.assignSessionToCourse(courseId,session);
+        return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 }
