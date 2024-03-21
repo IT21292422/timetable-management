@@ -1,9 +1,11 @@
 package com.web.timetable.timetablemanagement.service;
 
 import com.web.timetable.timetablemanagement.model.Course;
+import com.web.timetable.timetablemanagement.model.Session;
 import com.web.timetable.timetablemanagement.repository.CourseRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +46,13 @@ public class CourseService {
     public void deleteCourse(String id) {
         courseRepo.deleteById(id);
         System.out.println("Course with id " + id + " deleted...");
+    }
+
+    public Course assignSessionToCourse(String courseCode, Session session){
+        Optional<Course> optionalCourse = courseRepo.findCourseByCode(courseCode);
+        Course course = optionalCourse.get();
+        course.getSessions().add(session);
+        return courseRepo.save(course);
     }
 
 }
