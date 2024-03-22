@@ -49,4 +49,10 @@ public class TimeTableController {
         TimeTable updatedTimeTable = timetableService.assignCourseToTimetable(timetableId,courseId);
         return new ResponseEntity<>(updatedTimeTable,HttpStatus.OK);
     }
+
+    @DeleteMapping("/{timetableId}/courses/{courseId}")
+    public ResponseEntity<TimeTable> removeCourseFromTimeTable(@PathVariable String timetableId, @PathVariable String courseId){
+        TimeTable updatedTimeTable = timetableService.removeCourseFromTimetable(timetableId, courseId);
+        return new ResponseEntity<>(updatedTimeTable, HttpStatus.OK);
+    }
 }
