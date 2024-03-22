@@ -61,6 +61,28 @@ public class CourseService {
         }
     }
 
+    public Course updateSessionInCourse(String courseId, Session updatedSession){
+        Optional<Course> optionalCourse = getCourseById(courseId);
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            //Find and update the session within the course
+            for(Session session: course.getSessions()){
+                if(session.getSessionId().equals(updatedSession.getSessionId())){
+                    session.setDay(updatedSession.getDay());
+                    session.setStartTime(updatedSession.getStartTime());
+                    session.setEndTime(updatedSession.getEndTime());
+                    session.setFaculty(updatedSession.getFaculty());
+                    session.setLocation(updatedSession.getLocation());
+                    break;
+                }
+            }
+            return courseRepo.save(course);
+        }else {
+            // Handle the case where the course is not found
+            throw new NoSuchElementException("No course found with code: " + courseId);
+        }
+    }
+
     public Course removeSessionFromCourse(String courseCode, String sessionId){
         Optional<Course> optionalCourse = getCourseById(courseCode);
         if (optionalCourse.isPresent()) {
