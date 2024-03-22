@@ -49,19 +49,20 @@ public class BookingController {
         if(!bookingService.isRoomAvailable(booking.getStartTime(),booking.getEndTime(), roomId)){
             return ResponseEntity.badRequest().body("Room is not available for the specified time slot");
         }
-        booking.setRoomId(roomId);
-        bookingService.createBooking(booking);
+            booking.setRoomId(roomId);
+            bookingService.createBooking(booking);
 
-        return ResponseEntity.ok("Room booked successfully");
+            return ResponseEntity.ok("Room booked successfully");
     }
 
     @PostMapping("/resources/{resourceId}")
     public ResponseEntity<String> bookResource(@PathVariable String resourceId, @RequestBody Booking booking){
         if(!bookingService.isResourceAvailable(booking.getStartTime(), booking.getEndTime(), resourceId)){
             return ResponseEntity.badRequest().body("Resource is not available for the specified time slot.");
+        }else{
+            booking.setResourceId(resourceId);
+            bookingService.createBooking(booking);
+            return ResponseEntity.ok("Resource booked successfully");
         }
-        booking.setResourceId(resourceId);
-        bookingService.createBooking(booking);
-        return ResponseEntity.ok("Resource booked successfully");
     }
 }

@@ -1,9 +1,10 @@
 package com.web.timetable.timetablemanagement.service;
 
 import com.web.timetable.timetablemanagement.model.Booking;
-import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,9 @@ public class BookingService {
     public boolean isRoomAvailable(LocalDateTime startTime, LocalDateTime endTime, String roomId){
         List<Booking> conflictBookings = bookingRepo.findByStartTimeBetweenAndRoomId(startTime, endTime, roomId);
         return conflictBookings.isEmpty();
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("startTime").gte(startTime).and("endTime").lte(endTime).and("roomId").is(roomId));
+//        List<Booking> bookings = mongoTemplate.find(query, Booking.class);
     }
 
     //To check whether a resource is available
@@ -45,7 +49,6 @@ public class BookingService {
         Optional<Booking> optionalBooking = bookingRepo.findById(id);
         if(optionalBooking.isPresent()){
             Booking existingBooking = optionalBooking.get();
-            existingBooking.setDay(updatedBooking.getDay());
             existingBooking.setStartTime(updatedBooking.getStartTime());
             existingBooking.setEndTime(updatedBooking.getEndTime());
             if(updatedBooking.getResourceId()!=null){
