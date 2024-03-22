@@ -78,10 +78,10 @@ public class TimeTableService {
             //Find and update the course within the timetable
             for(Course course : timetable.getCourses()){
                 if(course.getCode().equals(updatedCourse.getCode())){
-                    course.setCode(updatedCourse.getCode());
                     course.setName(updatedCourse.getName());
                     course.setDescription(updatedCourse.getDescription());
                     course.setCredits(updatedCourse.getCredits());
+                    course.setSessions(updatedCourse.getSessions());
                     break;
                 }
             }

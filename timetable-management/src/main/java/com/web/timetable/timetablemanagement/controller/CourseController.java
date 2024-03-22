@@ -51,6 +51,12 @@ public class CourseController {
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 
+    @PutMapping("/updateSession/{courseId}/sessions")
+    public ResponseEntity<Course> updateSessionInCourse(@PathVariable String courseId, @RequestBody Session updatedSession){
+        Course updatedCourse = service.updateSessionInCourse(courseId,updatedSession);
+        return new ResponseEntity<>(updatedCourse,HttpStatus.OK);
+    }
+
     @DeleteMapping("/{courseId}/sessions/{sessionId}")
     public ResponseEntity<Course> removeSessionFromCourse(@PathVariable String courseId, @PathVariable String sessionId){
         Course updatedCourse = service.removeSessionFromCourse(courseId,sessionId);

@@ -1,5 +1,6 @@
 package com.web.timetable.timetablemanagement.controller;
 
+import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.model.TimeTable;
 import com.web.timetable.timetablemanagement.service.TimeTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class TimeTableController {
     public ResponseEntity<TimeTable> assignCourseToTimetable(@PathVariable String timetableId,@PathVariable String courseId){
         TimeTable updatedTimeTable = timetableService.assignCourseToTimetable(timetableId,courseId);
         return new ResponseEntity<>(updatedTimeTable,HttpStatus.OK);
+    }
+
+    @PutMapping("/{timetableId}/courses")
+    public ResponseEntity<TimeTable> updateCourseInTimetable(@PathVariable String timetableId, @RequestBody Course updatedCourse){
+        TimeTable updatedTimetable = timetableService.updateCourseInTimetable(timetableId,updatedCourse);
+        return new ResponseEntity<>(updatedTimetable,HttpStatus.OK);
     }
 
     @DeleteMapping("/{timetableId}/courses/{courseId}")
