@@ -33,7 +33,6 @@ public class RoomService {
         if(optionalRoom.isPresent()){
             Room existingRoom = optionalRoom.get();
             existingRoom.setName(updatedRoom.getName());
-            existingRoom.setCapacity(updatedRoom.getCapacity());
             return roomRepo.save(existingRoom);
         }else{
             return null;

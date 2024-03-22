@@ -15,5 +15,4 @@ public class Room {
     @Id
     private String roomId;
     private String name;
-    private int capacity;
 }

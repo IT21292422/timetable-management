@@ -14,5 +14,4 @@ public class Resource {
     @Id
     private String resourceId;
     private String name;
-    private int quantity;
 }
