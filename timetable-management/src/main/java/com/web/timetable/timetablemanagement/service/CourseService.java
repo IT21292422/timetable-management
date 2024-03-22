@@ -18,10 +18,12 @@ public class CourseService {
     private CourseRepository courseRepo;
 
     public Course createCourse(Course course){
+
         return courseRepo.save(course);
     }
 
     public List<Course> getAllCourses(){
+
         return courseRepo.findAll();
     }
 
