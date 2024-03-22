@@ -61,4 +61,16 @@ public class CourseService {
         }
     }
 
+    public Course removeSessionFromCourse(String courseCode, String sessionId){
+        Optional<Course> optionalCourse = getCourseById(courseCode);
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            course.getSessions().removeIf(session -> session.getSessionId().equals(sessionId));
+            return courseRepo.save(course);
+        }else {
+            // Handle the case where the course is not found
+            throw new NoSuchElementException("No course found with code: " + courseCode);
+        }
+    }
+
 }

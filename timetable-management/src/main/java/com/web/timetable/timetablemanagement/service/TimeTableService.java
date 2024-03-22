@@ -17,7 +17,7 @@ public class TimeTableService {
     private TimeTableRepository timetableRepo;
 
     @Autowired
-    private CourseRepository courseRepo;
+    private CourseService courseService;
 
     public TimeTable createTimetable(TimeTable timetable){
 
@@ -60,7 +60,7 @@ public class TimeTableService {
             // Handle the case where the course is not found
             throw new NoSuchElementException("No Timetable found with id: " + timetableId);
         }
-        Optional<Course> optionalCourse = courseRepo.findCourseByCode(courseCode);
+        Optional<Course> optionalCourse = courseService.getCourseById(courseCode);
         if(optionalCourse.isPresent()){
             course = optionalCourse.get();
         }else {
@@ -71,5 +71,17 @@ public class TimeTableService {
 
         timetable.getCourses().add(course);
         return timetableRepo.save(timetable);
+    }
+
+    public TimeTable removeCourseFromTimetable(String timetableId, String courseId){
+        Optional<TimeTable> optionalTimetable = timetableRepo.findById(timetableId);
+        if(optionalTimetable.isPresent()) {
+            TimeTable timetable = optionalTimetable.get();
+            timetable.getCourses().removeIf(course -> course.getCode().equals(courseId));
+            return timetableRepo.save(timetable);
+        }else {
+            // Handle the case where the course is not found
+            throw new NoSuchElementException("No Timetable found with id: " + timetableId);
+        }
     }
 }

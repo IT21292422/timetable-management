@@ -50,4 +50,10 @@ public class CourseController {
         Course updatedCourse = service.assignSessionToCourse(courseId,session);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{courseId}/sessions/{sessionId}")
+    public ResponseEntity<Course> removeSessionFromCourse(@PathVariable String courseId, @PathVariable String sessionId){
+        Course updatedCourse = service.removeSessionFromCourse(courseId,sessionId);
+        return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
+    }
 }
