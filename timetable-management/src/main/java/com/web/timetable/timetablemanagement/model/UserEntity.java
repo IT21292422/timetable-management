@@ -6,15 +6,18 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Document(collection="users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserEntity {
     @Id
     private String id;
 
     private String username;
     private String password;
-    private String role;  //eg: "Admin", "Faculty", "Student"
+    private List<Role> roles = new ArrayList<>();  //eg: "Admin", "Faculty", "Student"
 }
