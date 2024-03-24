@@ -62,4 +62,10 @@ public class CourseController {
         Course updatedCourse = service.removeSessionFromCourse(courseId,sessionId);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
+
+    @PutMapping("/{courseId}/faculty/{facultyId}")
+    public ResponseEntity<String> assignFacultyToCourse(@PathVariable String courseId, @PathVariable String facultyId){
+        service.assignFacultyToCourse(courseId,facultyId);
+        return ResponseEntity.ok("Faculty assigned to course successfully");
+    }
 }

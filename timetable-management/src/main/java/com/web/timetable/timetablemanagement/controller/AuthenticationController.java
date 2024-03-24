@@ -57,16 +57,16 @@ public class AuthenticationController {
         user.setUsername(registerData.getUsername());
         user.setPassword(passwordEncoder.encode(registerData.getPassword())); //This will encode the password
 
+        Role roles = roleRepo.findByName(registerData.getRole()).get(); //Changed from student to registerData.getRole()
+        user.setRoles(Collections.singletonList(roles));
+
+        userRepo.save(user);
+
         if(registerData.getRole().equals("Student")){
             Student student = new Student();
             student.setUser(user);
             stdRepo.save(student);
         }
-
-        Role roles = roleRepo.findByName(registerData.getRole()).get(); //Changed from student to registerData.getRole()
-        user.setRoles(Collections.singletonList(roles));
-
-        userRepo.save(user);
         return new ResponseEntity<>("User registered successfully",HttpStatus.OK);
     }
 

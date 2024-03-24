@@ -1,8 +1,10 @@
 package com.web.timetable.timetablemanagement.service;
 
 import com.web.timetable.timetablemanagement.model.Course;
+import com.web.timetable.timetablemanagement.model.Faculty;
 import com.web.timetable.timetablemanagement.model.Session;
 import com.web.timetable.timetablemanagement.repository.CourseRepository;
+import com.web.timetable.timetablemanagement.repository.FacultyRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class CourseService {
     @Autowired
     private CourseRepository courseRepo;
+    @Autowired
+    private FacultyRepository facultyRepo;
 
     public Course createCourse(Course course){
 
@@ -95,6 +99,22 @@ public class CourseService {
             // Handle the case where the course is not found
             throw new NoSuchElementException("No course found with code: " + courseCode);
         }
+    }
+
+    public void assignFacultyToCourse(String facultyId, String courseId){
+        Optional<Course> optionalCourse = getCourseById(courseId);
+        Optional<Faculty> optionalFaculty = facultyRepo.findById(facultyId);
+        Faculty faculty;
+        Course course;
+        if(optionalCourse.isPresent() && optionalFaculty.isPresent()){
+            course = optionalCourse.get();
+            faculty = optionalFaculty.get();
+            course.setFaculty(faculty);
+            courseRepo.save(course);
+        }else{
+            throw new NoSuchElementException("No course found with code: " + courseId);
+        }
+
     }
 
 }
