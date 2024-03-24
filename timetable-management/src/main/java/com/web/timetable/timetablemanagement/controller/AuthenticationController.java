@@ -1,10 +1,12 @@
 package com.web.timetable.timetablemanagement.controller;
 
-import com.web.timetable.timetablemanagement.model.AuthenticationRequest;
+import com.web.timetable.timetablemanagement.model.AuthRequest;
+import com.web.timetable.timetablemanagement.model.AuthResponse;
 import com.web.timetable.timetablemanagement.model.Role;
 import com.web.timetable.timetablemanagement.model.UserEntity;
 import com.web.timetable.timetablemanagement.repository.RoleRepository;
 import com.web.timetable.timetablemanagement.repository.UserRepository;
+import com.web.timetable.timetablemanagement.security.JWTGenerator;
 import com.web.timetable.timetablemanagement.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,25 +32,27 @@ public class AuthenticationController {
     private UserRepository userRepo;
     private RoleRepository roleRepo;
     private PasswordEncoder passwordEncoder;
-    private JwtUtils jwtUtils;
+    private JWTGenerator jwtGenerator;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder passwordEncoder) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
+        this.jwtGenerator = jwtGenerator;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthenticationRequest loginData){
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest loginData){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getUsername(),loginData.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication); //Due to this context we don't need to log in each time
-        return new ResponseEntity<>("User Login Successfully", HttpStatus.OK);
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponse(token), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody AuthenticationRequest registerData){
+    public ResponseEntity<String> register(@RequestBody AuthRequest registerData){
         if(userRepo.existsByUsername(registerData.getUsername())){
             return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
         }
