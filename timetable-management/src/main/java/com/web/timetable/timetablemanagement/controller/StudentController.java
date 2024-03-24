@@ -1,11 +1,9 @@
 package com.web.timetable.timetablemanagement.controller;
 
-import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.model.Enrollment;
 import com.web.timetable.timetablemanagement.model.Student;
 import com.web.timetable.timetablemanagement.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

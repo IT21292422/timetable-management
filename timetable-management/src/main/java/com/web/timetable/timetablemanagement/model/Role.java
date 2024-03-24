@@ -17,5 +17,4 @@ public class Role {
     @Id
     private String id;
     private String name; //eg: "Admin", "Faculty", "Student"
-    //private List<String> permissions = new ArrayList<>(); //eg: "Manage Users", "Manage_Courses", "View_Schedules"
 }
