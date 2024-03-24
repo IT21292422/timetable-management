@@ -61,7 +61,6 @@ public class NotificationServiceTest {
         // Verify the result
         assertEquals(updatedNotification.getType(), result.getType());
         assertEquals(updatedNotification.getMessage(), result.getMessage());
-        // Add assertions for other attributes if needed
     }
 }
 

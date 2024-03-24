@@ -47,7 +47,7 @@ public class CourseServiceTest {
 
     @Test
     public void testGetCourseById() {
-        String courseId = "C001";
+        String courseId = "SE3050";
         Course course = new Course();
         when(courseRepo.findCourseByCode(courseId)).thenReturn(Optional.of(course));
         Optional<Course> retrievedCourse = courseService.getCourseById(courseId);
@@ -65,17 +65,15 @@ public class CourseServiceTest {
         when(courseRepo.findById(courseId)).thenReturn(Optional.of(new Course()));
         when(courseRepo.save(any(Course.class))).thenAnswer(invocation -> {
             Course savedCourse = invocation.getArgument(0);
-            // Add any necessary logic to simulate saving
             return savedCourse;
         });
         Course result = courseService.updateCourse(courseId, updatedCourse);
         assertEquals(updatedCourse.getCode(), result.getCode());
-        // Add assertions for other attributes if needed
     }
 
     @Test
     public void testDeleteCourse() {
-        String courseId = "C001";
+        String courseId = "SE3050";
 
         // Mock behavior for findById and deleteById methods
         when(courseRepo.findById(courseId)).thenReturn(Optional.of(new Course()));
