@@ -37,6 +37,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/timetable/**").hasAnyRole("Student","Faculty")
+                        .requestMatchers(HttpMethod.POST, "/api/timetable/**").hasRole("Admin")
+                        .requestMatchers(HttpMethod.PUT, "/api/timetable/**").hasRole("Admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/timetable/**").hasRole("Admin")
                         .anyRequest().authenticated());
 
         http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);

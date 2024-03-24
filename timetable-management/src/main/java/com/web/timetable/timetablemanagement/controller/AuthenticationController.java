@@ -7,7 +7,6 @@ import com.web.timetable.timetablemanagement.model.UserEntity;
 import com.web.timetable.timetablemanagement.repository.RoleRepository;
 import com.web.timetable.timetablemanagement.repository.UserRepository;
 import com.web.timetable.timetablemanagement.security.JWTGenerator;
-import com.web.timetable.timetablemanagement.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -68,13 +64,4 @@ public class AuthenticationController {
         return new ResponseEntity<>("User registered successfully",HttpStatus.OK);
     }
 
-//    @PostMapping("/authenticate")
-//    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
-//        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword()));
-//        final UserDetails user = userRepo.findByUsername(request.getUsername());
-//        if(user != null){
-//            return ResponseEntity.ok(jwtUtils.generateToken(user));
-//        }
-//        return ResponseEntity.status(400).body("Some error has occured");
-//    }
 }

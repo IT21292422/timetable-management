@@ -9,13 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection="roles")
+@Document(collection = "students")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class Student {
     @Id
     private String id;
-    private String name; //eg: "Admin", "Faculty", "Student"
-    //private List<String> permissions = new ArrayList<>(); //eg: "Manage Users", "Manage_Courses", "View_Schedules"
+    private String name;
+    private UserEntity user;
+    private List<String> enrolledCourses = new ArrayList<>();
 }

@@ -6,16 +6,16 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Document(collection="roles")
+@Document(collection = "enrollments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class Enrollment {
     @Id
     private String id;
-    private String name; //eg: "Admin", "Faculty", "Student"
-    //private List<String> permissions = new ArrayList<>(); //eg: "Manage Users", "Manage_Courses", "View_Schedules"
+    private String studentId;
+    private String courseId;
+    private LocalDateTime enrolledAt;
 }
