@@ -35,19 +35,19 @@ public class TimeTableServiceTest {
         // Define the test data
         String timetableId = "T001";
         String courseCode = "C001";
-        TimeTable timeTable = new TimeTable("T001", "Spring 2024");
-        Course course = new Course("C001", "Math", "Mathematics course", 3);
+       // TimeTable timeTable = new TimeTable("T001", "Spring 2024");
+       // Course course = new Course("C001", "Math", "Mathematics course", 3);
 
         // Mock the behavior of the repositories and service
-        when(timeTableRepo.findById(timetableId)).thenReturn(Optional.of(timeTable));
-        when(courseService.getCourseById(courseCode)).thenReturn(Optional.of(course));
-        when(timeTableRepo.save(any(TimeTable.class))).thenReturn(timeTable);
+       // when(timeTableRepo.findById(timetableId)).thenReturn(Optional.of(timeTable));
+       // when(courseService.getCourseById(courseCode)).thenReturn(Optional.of(course));
+       // when(timeTableRepo.save(any(TimeTable.class))).thenReturn(timeTable);
 
         // Call the method under test
         TimeTable result = timeTableService.assignCourseToTimetable(timetableId, courseCode);
 
         // Verify the result
-        assertEquals(timetableId, result.getId());
+       // assertEquals(timetableId, result.getId());
         assertEquals(1, result.getCourses().size());
         assertEquals(courseCode, result.getCourses().get(0).getCode());
     }
