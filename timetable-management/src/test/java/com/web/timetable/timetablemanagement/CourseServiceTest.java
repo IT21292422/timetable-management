@@ -58,8 +58,8 @@ public class CourseServiceTest {
     @Test
     public void testUpdateCourse() {
         String courseId = "C001";
-        Course updatedCourse = new Course(); // create an updated course object
-        updatedCourse.setCode("C002"); // modify some attributes if needed
+        Course updatedCourse = new Course();
+        updatedCourse.setCode("C002");
 
         // Mock behavior for findById and save methods
         when(courseRepo.findById(courseId)).thenReturn(Optional.of(new Course()));
