@@ -1,6 +1,5 @@
 package com.web.timetable.timetablemanagement.controller;
 
-import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.model.Role;
 import com.web.timetable.timetablemanagement.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
