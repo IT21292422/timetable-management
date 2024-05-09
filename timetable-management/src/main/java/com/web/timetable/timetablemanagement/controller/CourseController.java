@@ -45,7 +45,7 @@ public class CourseController {
         service.deleteCourse(id);
     }
 
-    @PutMapping("/{courseId}/sessions")
+    @PutMapping("/assignSession/{courseId}/sessions")
     public ResponseEntity<Course> assignSessionToCourse(@PathVariable String courseId, @RequestBody Session session){
         Course updatedCourse = service.assignSessionToCourse(courseId,session);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
@@ -57,13 +57,13 @@ public class CourseController {
         return new ResponseEntity<>(updatedCourse,HttpStatus.OK);
     }
 
-    @DeleteMapping("/{courseId}/sessions/{sessionId}")
+    @DeleteMapping("/removeSession/{courseId}/sessions/{sessionId}")
     public ResponseEntity<Course> removeSessionFromCourse(@PathVariable String courseId, @PathVariable String sessionId){
         Course updatedCourse = service.removeSessionFromCourse(courseId,sessionId);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 
-    @PutMapping("/{courseId}/faculty/{facultyId}")
+    @PutMapping("/assignFaculty/{courseId}/faculty/{facultyId}")
     public ResponseEntity<String> assignFacultyToCourse(@PathVariable String courseId, @PathVariable String facultyId){
         service.assignFacultyToCourse(courseId,facultyId);
         return ResponseEntity.ok("Faculty assigned to course successfully");

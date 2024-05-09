@@ -1,7 +1,7 @@
 package com.web.timetable.timetablemanagement;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,33 +22,36 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class TimeTableServiceTest {
 
     @Mock
-    private TimeTableRepository timeTableRepo;
+    private TimeTableRepository timetableRepo;
 
     @Mock
     private CourseService courseService;
 
     @InjectMocks
-    private TimeTableService timeTableService;
+    private TimeTableService timetableService;
 
     @Test
-    public void testAssignCourseToTimetable() {
-        // Define the test data
-        String timetableId = "T001";
-        String courseCode = "C001";
-       // TimeTable timeTable = new TimeTable("T001", "Spring 2024");
-       // Course course = new Course("C001", "Math", "Mathematics course", 3);
-
-        // Mock the behavior of the repositories and service
-       // when(timeTableRepo.findById(timetableId)).thenReturn(Optional.of(timeTable));
-       // when(courseService.getCourseById(courseCode)).thenReturn(Optional.of(course));
-       // when(timeTableRepo.save(any(TimeTable.class))).thenReturn(timeTable);
-
-        // Call the method under test
-        TimeTable result = timeTableService.assignCourseToTimetable(timetableId, courseCode);
-
-        // Verify the result
-       // assertEquals(timetableId, result.getId());
-        assertEquals(1, result.getCourses().size());
-        assertEquals(courseCode, result.getCourses().get(0).getCode());
+    public void testCreateTimetable() {
+        TimeTable timetable = new TimeTable();
+        when(timetableRepo.save(timetable)).thenReturn(timetable);
+        TimeTable createdTimetable = timetableService.createTimetable(timetable);
+        assertEquals(timetable,createdTimetable);
     }
+
+    @Test
+    public void testGetAllTimetable(){
+        List<TimeTable> timetableList = new ArrayList<>();
+        when(timetableRepo.findAll()).thenReturn(timetableList);
+        List<TimeTable> result = timetableService.getAllTimetable();
+        assertEquals(timetableList.size(),result.size());
+    }
+
+    @Test
+    public void testDeleteTimetable(){
+        String timetableId = "1";
+        doNothing().when(timetableRepo).deleteById(timetableId);
+        timetableService.deleteTimetable(timetableId);
+        verify(timetableRepo,times(1)).deleteById(timetableId);
+    }
+
 }

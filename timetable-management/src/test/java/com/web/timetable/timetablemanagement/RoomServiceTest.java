@@ -2,7 +2,7 @@ package com.web.timetable.timetablemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,14 @@ public class RoomServiceTest {
 
     @InjectMocks
     private RoomService roomService;
+
+    @Test
+    public void testCreateRoom(){
+        Room room = new Room();
+        when(roomRepo.save(room)).thenReturn(room);
+        Room createdRoom = roomService.createRoom(room);
+        assertEquals(room,createdRoom);
+    }
 
     @Test
     public void testGetAllRooms() {
@@ -59,6 +67,14 @@ public class RoomServiceTest {
 
         // Verify the result
         assertEquals(updatedRoom.getName(), result.getName());
+    }
+
+    @Test
+    public void testDeleteRoom(){
+        String roomId = "1";
+        doNothing().when(roomRepo).deleteById(roomId);
+        roomService.deleteRoom(roomId);
+        verify(roomRepo,times(1)).deleteById(roomId);
     }
 }
 

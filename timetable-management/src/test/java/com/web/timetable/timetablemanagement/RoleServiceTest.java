@@ -2,7 +2,7 @@ package com.web.timetable.timetablemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,14 @@ public class RoleServiceTest {
 
     @InjectMocks
     private RoleService roleService;
+
+    @Test
+    public void testCreateRole(){
+        Role role = new Role();
+        when(roleRepo.save(role)).thenReturn(role);
+        Role createdRole = roleService.createRole(role);
+        assertEquals(role,createdRole);
+    }
 
     @Test
     public void testGetAllRoles() {
@@ -59,5 +67,13 @@ public class RoleServiceTest {
 
         // Verify the result
         assertEquals(updatedRole.getName(), result.getName());
+    }
+
+    @Test
+    public void testDeleteRole(){
+        String roleId = "1";
+        doNothing().when(roleRepo).deleteById(roleId);
+        roleService.deleteRole(roleId);
+        verify(roleRepo,times(1)).deleteById(roleId);
     }
 }

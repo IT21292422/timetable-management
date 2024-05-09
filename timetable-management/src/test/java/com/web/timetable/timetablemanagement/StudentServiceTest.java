@@ -1,6 +1,7 @@
 package com.web.timetable.timetablemanagement;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,16 +43,17 @@ public class StudentServiceTest {
         // Define the test data
         String studentId = "S001";
         String courseId = "C001";
-       // Student student = new Student("S001", "John Doe");
-        // Course course = new Course("C001", "Math", "Mathematics course", 3);
+        Student student = new Student();
+        student.setId(studentId);
+        Course course = new Course();
+        course.setId(courseId);
         Enrollment enrollment = new Enrollment("E001", studentId, courseId, LocalDateTime.now());
 
         // Mock the behavior of the repositories and service
-       // when(studentRepo.findById(studentId)).thenReturn(Optional.of(student));
-       // when(courseService.getCourseById(courseId)).thenReturn(Optional.of(course));
-       // when(enrollmentRepo.findByStudentIdAndCourseId(studentId, courseId)).thenReturn(new ArrayList<>());
+        when(studentRepo.findById(studentId)).thenReturn(Optional.of(student));
+        when(courseService.getCourseById(courseId)).thenReturn(Optional.of(course));
         when(enrollmentRepo.save(any(Enrollment.class))).thenReturn(enrollment);
-       // when(studentRepo.save(any(Student.class))).thenReturn(student);
+        when(studentRepo.save(any(Student.class))).thenReturn(student);
 
         // Call the method under test
         Student result = studentService.enrollInCourse(studentId, courseId);
@@ -61,17 +63,23 @@ public class StudentServiceTest {
         assertEquals(courseId, result.getEnrolledCourses().get(0));
     }
 
-    //@Test(expected = NoSuchElementException.class)
-    public void testEnrollInCourse_StudentNotFound() {
-        // Define the test data
-        String studentId = "S001";
-        String courseId = "C001";
+    @Test
+    public void testGetEnrolledCoursesByStudent() {
+        // Arrange
+        String studentId = "123456";
+        List<Enrollment> enrollments = new ArrayList<>();
+        enrollments.add(new Enrollment("1", studentId, "SE3050", LocalDateTime.now()));
+        enrollments.add(new Enrollment("2", studentId, "SE3060", LocalDateTime.now()));
 
-        // Mock the behavior of the repositories and service
-        when(studentRepo.findById(studentId)).thenReturn(Optional.empty());
+        // Mocking behavior of enrollRepo
+        when(enrollmentRepo.findByStudentId(studentId)).thenReturn(enrollments);
 
-        // Call the method under test
-        studentService.enrollInCourse(studentId, courseId);
+        // Act
+        List<Enrollment> result = studentService.getEnrolledCoursesByStudent(studentId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(enrollments.size(), result.size());
     }
 
 }

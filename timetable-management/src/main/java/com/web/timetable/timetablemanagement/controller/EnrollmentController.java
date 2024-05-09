@@ -14,13 +14,13 @@ public class EnrollmentController {
     @Autowired
     private StudentService stdService;
 
-    @GetMapping("/{studentId}")
+    @GetMapping("/getStudent/{studentId}")
     public ResponseEntity<List<Enrollment>> getEnrolledCoursesByStudent(@PathVariable String studentId){
         List<Enrollment> enrollment = stdService.getEnrolledCoursesByStudent(studentId);
         return ResponseEntity.ok(enrollment);
     }
 
-    @GetMapping("/{courseId}")
+    @GetMapping("/getCourse/{courseId}")
     public ResponseEntity<List<Enrollment>> getEnrolledCoursesByCourse(@PathVariable String courseId){
         List<Enrollment> enrollment = stdService.getEnrolledCoursesByCourse(courseId);
         return ResponseEntity.ok(enrollment);

@@ -1,6 +1,7 @@
 package com.web.timetable.timetablemanagement.controller;
 
 import com.web.timetable.timetablemanagement.model.*;
+import com.web.timetable.timetablemanagement.repository.FacultyRepository;
 import com.web.timetable.timetablemanagement.repository.RoleRepository;
 import com.web.timetable.timetablemanagement.repository.StudentRepository;
 import com.web.timetable.timetablemanagement.repository.UserRepository;
@@ -26,17 +27,19 @@ public class AuthenticationController {
     private UserRepository userRepo;
     private RoleRepository roleRepo;
     private StudentRepository stdRepo;
+    private FacultyRepository facultyRepo;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator, StudentRepository stdRepo) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator, StudentRepository stdRepo, FacultyRepository facultyRepo) {
         this.authenticationManager = authenticationManager;
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
         this.stdRepo = stdRepo;
+        this.facultyRepo = facultyRepo;
     }
 
     @PostMapping("/login")
@@ -62,12 +65,24 @@ public class AuthenticationController {
 
         userRepo.save(user);
 
-        if(registerData.getRole().equals("Student")){
+        if(registerData.getRole().equals("ROLE_Student")){
             Student student = new Student();
+            student.setName(registerData.getUsername());
             student.setUser(user);
             stdRepo.save(student);
+        }else if(registerData.getRole().equals("ROLE_Faculty")){
+            Faculty faculty = new Faculty();
+            faculty.setName(registerData.getUsername());
+            faculty.setDepartment(registerData.getDepartment());
+            faculty.setUser(user);
+            facultyRepo.save(faculty);
         }
         return new ResponseEntity<>("User registered successfully",HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable String id){
+        userRepo.deleteById(id);
     }
 
 }

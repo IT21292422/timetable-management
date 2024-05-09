@@ -21,7 +21,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/{studentId}/courses")
+    @GetMapping("/getEnroll/{studentId}/courses")
     public ResponseEntity<List<Enrollment>> getEnrolledCourses(@PathVariable String studentId){
         List<Enrollment> enrollment = stdService.getEnrolledCoursesByStudent(studentId);
         return ResponseEntity.ok(enrollment);

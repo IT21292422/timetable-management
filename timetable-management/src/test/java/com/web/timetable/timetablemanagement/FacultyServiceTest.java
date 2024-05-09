@@ -1,8 +1,9 @@
 package com.web.timetable.timetablemanagement;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,16 @@ public class FacultyServiceTest {
     private FacultyService facultyService;
 
     @Test
+    public void testCreateFaculty(){
+        Faculty faculty = new Faculty();
+        when(facultyRepo.save(faculty)).thenReturn(faculty);
+        Faculty createdFaculty = facultyService.createFaculty(faculty);
+        assertEquals(faculty,createdFaculty);
+    }
+
+    @Test
     public void testGetAllFaculties() {
-        // Define the test data
         List<Faculty> facultyList = new ArrayList<>();
-        facultyList.add(new Faculty("1", "FOC", "CSSE"));
-        facultyList.add(new Faculty("2", "SOB", "Business"));
 
         // Mock the behavior of the faculty repository
         when(facultyRepo.findAll()).thenReturn(facultyList);
@@ -44,21 +50,40 @@ public class FacultyServiceTest {
     }
 
     @Test
-    public void testUpdateFaculty() {
-        // Define the test data
-        String facultyId = "1";
-        Faculty existingFaculty = new Faculty("1", "FOC", "CSSE");
-        Faculty updatedFaculty = new Faculty("1", "SOB", "Business");
-
-        // Mock the behavior of the faculty repository
-        when(facultyRepo.findById(facultyId)).thenReturn(Optional.of(existingFaculty));
-        when(facultyRepo.save(any(Faculty.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        // Call the method under test
-        Faculty result = facultyService.updateFaculty(facultyId, updatedFaculty);
-
-        // Verify the result
-        assertEquals(updatedFaculty.getName(), result.getName());
-        assertEquals(updatedFaculty.getDepartment(), result.getDepartment());
+    public void testGetFacultyById(){
+        String facultyId = "11131222";
+        Faculty faculty = new Faculty();
+        when(facultyRepo.findById(facultyId)).thenReturn(Optional.of(faculty));
+        Optional<Faculty> retrievedFaculty = facultyService.getFacultyById(facultyId);
+        assertTrue(retrievedFaculty.isPresent());
+        assertEquals(faculty,retrievedFaculty.get());
     }
+
+    @Test
+    public void testUpdateFaculty(){
+        String facultyId = "11131222";
+        Faculty existingFaculty = new Faculty();
+        existingFaculty.setName("FOC");
+
+        Faculty updatedFaculty = new Faculty();
+        updatedFaculty.setName("SOB");
+
+        when(facultyRepo.findById(facultyId)).thenReturn(Optional.of(existingFaculty));
+        when(facultyRepo.save(existingFaculty)).thenReturn(existingFaculty);
+
+        Faculty result = facultyService.updateFaculty(facultyId,updatedFaculty);
+
+        assertNotNull(result);
+        assertEquals(updatedFaculty.getName(), result.getName());
+
+    }
+
+    @Test
+    public void testDeleteFaculty(){
+        String facultyId = "01133342";
+        doNothing().when(facultyRepo).deleteById(facultyId);
+        facultyService.deleteFaculty(facultyId);
+        verify(facultyRepo,times(1)).deleteById(facultyId);
+    }
+
 }

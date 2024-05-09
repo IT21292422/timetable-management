@@ -26,20 +26,28 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = getJWTFromRequest(request);
-        if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)){
-            String username = tokenGenerator.getUsernameFromJWT(token);
-            UserDetails userDetails = customerUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,userDetails.getAuthorities());
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        }
+     try{
+         String token = getJWTFromRequest(request);
+         System.out.println(token);
+         if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)){
+             String username = tokenGenerator.getUsernameFromJWT(token);
+             System.out.println(username);
+             UserDetails userDetails = customerUserDetailsService.loadUserByUsername(username);
+             System.out.println(userDetails);
+             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+             System.out.println(authenticationToken);
+             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+         }
+     }catch(Exception e){
+         System.out.println(e);
+     }
         filterChain.doFilter(request,response);
 
     }
     private String getJWTFromRequest(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
+        if(bearerToken != null && StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
             return bearerToken.substring(7,bearerToken.length());
         }
         return null;

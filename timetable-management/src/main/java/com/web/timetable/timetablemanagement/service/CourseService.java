@@ -101,7 +101,7 @@ public class CourseService {
         }
     }
 
-    public void assignFacultyToCourse(String facultyId, String courseId){
+    public void assignFacultyToCourse(String courseId, String facultyId){
         Optional<Course> optionalCourse = getCourseById(courseId);
         Optional<Faculty> optionalFaculty = facultyRepo.findById(facultyId);
         Faculty faculty;

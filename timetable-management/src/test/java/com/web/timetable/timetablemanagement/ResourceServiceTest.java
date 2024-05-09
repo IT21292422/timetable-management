@@ -2,7 +2,7 @@ package com.web.timetable.timetablemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,14 @@ public class ResourceServiceTest {
 
     @InjectMocks
     private ResourceService resourceService;
+
+    @Test
+    public void testCreateResource(){
+        Resource resource = new Resource();
+        when(resourceRepo.save(resource)).thenReturn(resource);
+        Resource createdResource = resourceService.createResource(resource);
+        assertEquals(resource,createdResource);
+    }
 
     @Test
     public void testGetAllResources() {
@@ -59,5 +67,13 @@ public class ResourceServiceTest {
 
         // Verify the result
         assertEquals(updatedResource.getName(), result.getName());
+    }
+
+    @Test
+    public void testDeleteResource(){
+        String resourceId = "1";
+        doNothing().when(resourceRepo).deleteById(resourceId);
+        resourceService.deleteResource(resourceId);
+        verify(resourceRepo,times(1)).deleteById(resourceId);
     }
 }

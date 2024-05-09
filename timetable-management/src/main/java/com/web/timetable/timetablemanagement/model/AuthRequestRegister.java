@@ -9,4 +9,5 @@ public class AuthRequestRegister {
     public String username;
     public String password;
     public String role;
+    public String department;
 }

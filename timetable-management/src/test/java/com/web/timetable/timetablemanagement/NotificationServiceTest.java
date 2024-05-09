@@ -2,7 +2,7 @@ package com.web.timetable.timetablemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,6 +26,14 @@ public class NotificationServiceTest {
 
     @InjectMocks
     private NotificationService notificationService;
+
+    @Test
+    public void testCreateNotification(){
+        Notification notification = new Notification();
+        when(notificationRepo.save(notification)).thenReturn(notification);
+        Notification createdNotification = notificationService.createNotification(notification);
+        assertEquals(notification,createdNotification);
+    }
 
     @Test
     public void testGetAllNotifications() {
@@ -61,6 +69,14 @@ public class NotificationServiceTest {
         // Verify the result
         assertEquals(updatedNotification.getType(), result.getType());
         assertEquals(updatedNotification.getMessage(), result.getMessage());
+    }
+
+    @Test
+    public void testDeleteNotification(){
+        String notificationId = "1";
+        doNothing().when(notificationRepo).deleteById(notificationId);
+        notificationService.deleteNotification(notificationId);
+        verify(notificationRepo,times(1)).deleteById(notificationId);
     }
 }
 
