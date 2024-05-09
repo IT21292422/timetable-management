@@ -4,6 +4,7 @@ import com.web.timetable.timetablemanagement.model.Course;
 import com.web.timetable.timetablemanagement.repository.CourseRepository;
 import com.web.timetable.timetablemanagement.repository.FacultyRepository;
 import com.web.timetable.timetablemanagement.service.CourseService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,10 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CourseServiceTest {
+public class CourseServiceTest1 {
     @Mock
     private CourseRepository courseRepo;
-
     @Mock
     private FacultyRepository facultyRepo;
 
